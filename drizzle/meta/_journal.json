@@ -1,0 +1,83 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1749319793950,
+      "tag": "0000_equal_amphibian",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1749394974879,
+      "tag": "0001_fantastic_madame_masque",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749608215063,
+      "tag": "0002_concerned_korg",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1749933990131,
+      "tag": "0003_curvy_robin_chapel",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1750456015186,
+      "tag": "0004_modern_cargill",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1750538610028,
+      "tag": "0005_known_squirrel_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1750701189110,
+      "tag": "0006_late_brother_voodoo",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1777709360607,
+      "tag": "0007_previous_zeigeist",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1777731611803,
+      "tag": "0008_lovely_cerebro",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1777733311385,
+      "tag": "0009_numerous_lilith",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1777734269458,
+      "tag": "0010_salty_solo",
+      "breakpoints": true
+    }
+  ]
+}
