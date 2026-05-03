@@ -13,7 +13,7 @@ import {
 import { createTRPCRouter, protectedProcedure } from '../trpc.js';
 
 const accountTypeSchema = z.enum(['owner', 'contributor', 'investor']);
-const manageableProviderSchema = z.enum(['github', 'google', 'email-password']);
+const manageableProviderSchema = z.enum(['github', 'email-password']);
 const projectTags = [
   'web',
   'mobile',

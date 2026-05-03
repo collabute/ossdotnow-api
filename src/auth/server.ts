@@ -7,7 +7,6 @@ import { env } from '../env/server.js';
 import { sendAuthEmail } from './email.js';
 
 const hasGitHubOAuth = Boolean(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET);
-const hasGoogleOAuth = Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET);
 
 if (env.NODE_ENV !== 'production') {
   if (!hasGitHubOAuth) {
@@ -16,11 +15,6 @@ if (env.NODE_ENV !== 'production') {
     );
   }
 
-  if (!hasGoogleOAuth) {
-    console.warn(
-      'Google OAuth is disabled. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to enable it.',
-    );
-  }
 }
 
 export const auth = betterAuth({
@@ -34,7 +28,7 @@ export const auth = betterAuth({
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ['github', 'google', 'email-password'],
+      trustedProviders: ['github', 'email-password'],
       allowDifferentEmails: false,
     },
   },
@@ -98,14 +92,6 @@ export const auth = betterAuth({
             clientId: env.GITHUB_CLIENT_ID,
             clientSecret: env.GITHUB_CLIENT_SECRET,
             scope: ['user', 'repo'],
-          },
-        }
-      : {}),
-    ...(hasGoogleOAuth
-      ? {
-          google: {
-            clientId: env.GOOGLE_CLIENT_ID,
-            clientSecret: env.GOOGLE_CLIENT_SECRET,
           },
         }
       : {}),

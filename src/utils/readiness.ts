@@ -26,10 +26,6 @@ export function getProviderReadiness() {
   const githubTokenMissing = [!env.GITHUB_TOKEN ? 'GITHUB_TOKEN' : null].filter(
     (value): value is string => Boolean(value),
   );
-  const googleOAuthMissing = [
-    !env.GOOGLE_CLIENT_ID ? 'GOOGLE_CLIENT_ID' : null,
-    !env.GOOGLE_CLIENT_SECRET ? 'GOOGLE_CLIENT_SECRET' : null,
-  ].filter((value): value is string => Boolean(value));
   const resendMissing = [
     !env.RESEND_API_KEY ? 'RESEND_API_KEY' : null,
     !env.AUTH_EMAIL_FROM ? 'AUTH_EMAIL_FROM' : null,
@@ -51,10 +47,6 @@ export function getProviderReadiness() {
           : 'missing',
       missing: [...githubOAuthMissing, ...githubTokenMissing],
     },
-    google: {
-      oauthConfigured: googleOAuthMissing.length === 0,
-      ...providerCheck(googleOAuthMissing),
-    },
     resend: providerCheck(resendMissing),
     uploadThing: providerCheck(uploadThingMissing),
     openai: providerCheck(openaiMissing, true),
@@ -65,7 +57,6 @@ export function getReadinessDiagnostics() {
   const providers = getProviderReadiness();
   const requiredMissing = [
     ...providers.github.missing,
-    ...providers.google.missing,
     ...providers.resend.missing,
     ...providers.uploadThing.missing,
   ];

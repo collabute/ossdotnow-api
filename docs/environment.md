@@ -17,8 +17,6 @@ These variables are validated at startup when `NODE_ENV=production`:
 | `GITHUB_CLIENT_ID` | GitHub OAuth app client ID. |
 | `GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret. |
 | `GITHUB_TOKEN` | GitHub API token used for repo search and public metadata fallback. |
-| `GOOGLE_CLIENT_ID` | Google OAuth client ID. |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret. |
 | `RESEND_API_KEY` | Resend API key for verification and reset emails. |
 | `AUTH_EMAIL_FROM` | Sender address for transactional auth emails. |
 | `UNKEY_ROOT_KEY` | Root key for rate limiting. |
@@ -47,7 +45,6 @@ OAuth callbacks are mounted on the API:
 | Provider | Local callback | Production callback |
 | --- | --- | --- |
 | GitHub | `http://localhost:3001/api/auth/callback/github` | `https://api.oss.now/api/auth/callback/github` |
-| Google | `http://localhost:3001/api/auth/callback/google` | `https://api.oss.now/api/auth/callback/google` |
 
 ## Readiness
 
@@ -56,7 +53,7 @@ OAuth callbacks are mounted on the API:
 - `ready`: whether critical providers are configured.
 - `requiredMissing`: required provider env names that are missing.
 - `optionalMissing`: optional provider env names that are missing.
-- `providers`: GitHub OAuth/token, Google OAuth, Resend, UploadThing, and OpenAI status.
+- `providers`: GitHub OAuth/token, Resend, UploadThing, and OpenAI status.
 
 Admin dashboards consume the same provider readiness helper, so the UI never needs secret values.
 

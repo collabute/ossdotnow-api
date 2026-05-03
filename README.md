@@ -14,7 +14,6 @@ The API listens on `http://localhost:3001`.
 Auth is handled by Better Auth at `/api/auth/*`. Local development uses:
 
 - GitHub callback: `http://localhost:3001/api/auth/callback/github`
-- Google callback: `http://localhost:3001/api/auth/callback/google`
 
 If GitHub redirects contain `client_id=` with an empty value, the API was started
 without `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`. Add them to `.env` and
@@ -23,7 +22,6 @@ restart `bun run dev`.
 Production OAuth callbacks should use the API domain:
 
 - `https://api.oss.now/api/auth/callback/github`
-- `https://api.oss.now/api/auth/callback/google`
 
 Email/password verification and password reset emails use Resend. Set
 `RESEND_API_KEY` and `AUTH_EMAIL_FROM` in deployed environments. In development,
