@@ -13,9 +13,9 @@ function includes(source: string, expected: string, message: string) {
   assert.ok(source.includes(expected), message);
 }
 
-const [server, envServer, readiness, projects, earlyAccess, earlySubmissions, projectSchema, trpc] =
+const [app, envServer, readiness, projects, earlyAccess, earlySubmissions, projectSchema, trpc] =
   await Promise.all([
-    read('src/server.ts'),
+    read('src/app.ts'),
     read('src/env/server.ts'),
     read('src/utils/readiness.ts'),
     read('src/routers/projects.ts'),
@@ -25,19 +25,17 @@ const [server, envServer, readiness, projects, earlyAccess, earlySubmissions, pr
     read('src/trpc.ts'),
   ]);
 
-includes(server, "app.get('/healthz'", 'health endpoint is mounted');
-includes(server, "app.get('/api/session'", 'session endpoint is mounted');
-includes(server, "'/api/auth/*'", 'Better Auth endpoint is mounted');
-includes(server, "'/api/trpc/*'", 'tRPC endpoint is mounted');
-includes(server, "'/api/uploadthing'", 'UploadThing endpoint is mounted');
-includes(server, 'getReadinessDiagnostics', 'health endpoint returns readiness diagnostics');
+includes(app, "app.get('/healthz'", 'health endpoint is mounted');
+includes(app, "app.get('/api/session'", 'session endpoint is mounted');
+includes(app, "'/api/auth/*'", 'Better Auth endpoint is mounted');
+includes(app, "'/api/trpc/*'", 'tRPC endpoint is mounted');
+includes(app, "'/api/uploadthing'", 'UploadThing endpoint is mounted');
+includes(app, 'getReadinessDiagnostics', 'health endpoint returns readiness diagnostics');
 
 for (const envName of [
   'GITHUB_CLIENT_ID',
   'GITHUB_CLIENT_SECRET',
   'GITHUB_TOKEN',
-  'GOOGLE_CLIENT_ID',
-  'GOOGLE_CLIENT_SECRET',
   'RESEND_API_KEY',
   'AUTH_EMAIL_FROM',
   'UPLOADTHING_TOKEN',
@@ -56,14 +54,12 @@ for (const envName of [
   'GITHUB_CLIENT_ID',
   'GITHUB_CLIENT_SECRET',
   'GITHUB_TOKEN',
-  'GOOGLE_CLIENT_ID',
-  'GOOGLE_CLIENT_SECRET',
   'RESEND_API_KEY',
   'AUTH_EMAIL_FROM',
   'UNKEY_ROOT_KEY',
   'UPLOADTHING_TOKEN',
 ]) {
-  includes(envServer, `'${envName}'`, `${envName} is production startup validated`);
+  includes(envServer, `${envName}:`, `${envName} is production startup validated`);
 }
 
 includes(projects, 'createProject: protectedProcedure', 'project creation is authenticated');

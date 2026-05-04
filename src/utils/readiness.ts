@@ -1,4 +1,6 @@
 import { env } from '../env/server.js';
+import { db } from '../db/index.js';
+import { sql } from 'drizzle-orm';
 
 type ReadinessStatus = 'ready' | 'degraded' | 'missing';
 
@@ -6,6 +8,13 @@ type ProviderCheck = {
   configured: boolean;
   status: ReadinessStatus;
   missing: string[];
+};
+
+type DatabaseCheck = {
+  reachable: boolean;
+  status: ReadinessStatus;
+  latencyMs?: number;
+  error?: string;
 };
 
 function providerCheck(missing: string[], optional = false): ProviderCheck {
@@ -53,9 +62,37 @@ export function getProviderReadiness() {
   };
 }
 
-export function getReadinessDiagnostics() {
+async function getDatabaseReadiness(): Promise<DatabaseCheck> {
+  const startedAt = Date.now();
+
+  try {
+    await Promise.race([
+      db.execute(sql`select 1`),
+      new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Database readiness check timed out')), 3_000);
+      }),
+    ]);
+
+    return {
+      reachable: true,
+      status: 'ready',
+      latencyMs: Date.now() - startedAt,
+    };
+  } catch (error) {
+    return {
+      reachable: false,
+      status: 'missing',
+      latencyMs: Date.now() - startedAt,
+      error: error instanceof Error ? error.message : 'Database readiness check failed',
+    };
+  }
+}
+
+export async function getReadinessDiagnostics() {
   const providers = getProviderReadiness();
+  const database = await getDatabaseReadiness();
   const requiredMissing = [
+    ...(!database.reachable ? ['DATABASE_URL'] : []),
     ...providers.github.missing,
     ...providers.resend.missing,
     ...providers.uploadThing.missing,
@@ -67,6 +104,7 @@ export function getReadinessDiagnostics() {
     environment: env.NODE_ENV,
     ready: requiredMissing.length === 0,
     status: requiredMissing.length === 0 ? 'ready' : 'missing',
+    database,
     providers,
     requiredMissing,
     optionalMissing,

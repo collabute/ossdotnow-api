@@ -26,6 +26,7 @@ export const auth = betterAuth({
   plugins: [admin()],
   trustedOrigins: [env.WEB_BASE_URL, ...env.CORS_ORIGINS.split(',').map((origin) => origin.trim())],
   account: {
+    storeStateStrategy: 'cookie',
     accountLinking: {
       enabled: true,
       trustedProviders: ['github', 'email-password'],

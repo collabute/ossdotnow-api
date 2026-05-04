@@ -35,8 +35,8 @@ app.use(
   }),
 );
 
-app.get('/healthz', (c) => {
-  const diagnostics = getReadinessDiagnostics();
+app.get('/healthz', async (c) => {
+  const diagnostics = await getReadinessDiagnostics();
 
   return c.json({
     ok: true,
