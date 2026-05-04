@@ -111,4 +111,4 @@ app.all('/api/trpc/*', (c) => {
   });
 });
 
-export default app.fetch.bind(app);
+export default app;
