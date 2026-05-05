@@ -37,7 +37,7 @@ These variables are validated at startup when `NODE_ENV=production`:
 | --- | --- | --- |
 | `API_BASE_URL` | `http://localhost:3001` | `https://api.oss.now` |
 | `WEB_BASE_URL` | `http://localhost:3000` | `https://oss.now` |
-| `CORS_ORIGINS` | `http://localhost:3000` | `https://oss.now` |
+| `CORS_ORIGINS` | `http://localhost:3000` | `https://oss.now,https://staging.oss.now` |
 | `AUTH_COOKIE_DOMAIN` | leave unset locally | `oss.now` |
 
 OAuth callbacks are mounted on the API:
