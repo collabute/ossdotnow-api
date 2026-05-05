@@ -3,7 +3,7 @@ import { admin } from 'better-auth/plugins';
 import { betterAuth } from 'better-auth';
 
 import { db } from '../db/index.js';
-import { env } from '../env/server.js';
+import { corsOrigins, env } from '../env/server.js';
 import { sendAuthEmail } from './email.js';
 
 const hasGitHubOAuth = Boolean(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET);
@@ -24,7 +24,7 @@ export const auth = betterAuth({
     provider: 'pg',
   }),
   plugins: [admin()],
-  trustedOrigins: [env.WEB_BASE_URL, ...env.CORS_ORIGINS.split(',').map((origin) => origin.trim())],
+  trustedOrigins: corsOrigins,
   account: {
     storeStateStrategy: 'cookie',
     accountLinking: {

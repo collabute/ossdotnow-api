@@ -10,7 +10,7 @@ const envSchema = z.object({
     .default('postgresql://postgres:postgres@localhost:5432/ossdotnow_db'),
   API_BASE_URL: z.string().url().default('http://localhost:3001'),
   WEB_BASE_URL: z.string().url().default('http://localhost:3000'),
-  CORS_ORIGINS: z.string().default('http://localhost:3000,https://oss.now'),
+  CORS_ORIGINS: z.string().default('http://localhost:3000,https://oss.now,https://staging.oss.now'),
   AUTH_COOKIE_DOMAIN: z.string().default('oss.now'),
   BETTER_AUTH_SECRET: z.string().default(''),
   GITHUB_CLIENT_ID: z.string().default(''),
@@ -28,6 +28,20 @@ const envSchema = z.object({
 
 export const env = envSchema.parse(process.env);
 
-export const corsOrigins = env.CORS_ORIGINS.split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+const webOrigins = ['https://oss.now', 'https://staging.oss.now'];
+
+const normalizeOrigin = (origin: string) => {
+  try {
+    return new URL(origin).origin;
+  } catch {
+    return origin.trim().replace(/\/+$/, '');
+  }
+};
+
+export const corsOrigins = Array.from(
+  new Set(
+    [...env.CORS_ORIGINS.split(','), env.WEB_BASE_URL, ...webOrigins]
+      .map((origin) => normalizeOrigin(origin.trim()))
+      .filter(Boolean),
+  ),
+);
